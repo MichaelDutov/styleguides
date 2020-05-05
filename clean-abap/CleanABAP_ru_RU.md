@@ -24,8 +24,8 @@
 
 - [Полезная информация](#how-to)
   - [С чего лучше начать](#how-to-get-started-with-clean-code)
-  - [How to Refactor Legacy Code](#how-to-refactor-legacy-code)
-  - [How to Check Automatically](#how-to-check-automatically)
+  - [Рефакторинг устаревшего кода](#how-to-refactor-legacy-code)
+  - [Автоматические проверки](#how-to-check-automatically)
   - [How to Relate to Other Guides](#how-to-relate-to-other-guides)
   - [How to Disagree](#how-to-disagree)
 - [Наименования](#names)
@@ -264,74 +264,72 @@
 сопровождающим любые изменения в подходах и парадигмах.
 
 Наиболее дискуссионные темы, такие как [Комментарии](#comments), [Наименования](#names), and [Formatting](#formatting)
-могут порождать почти религиозные споры и должны рассматриваться только в командах,
-убедившихся в пользе применения практик Чистого Кода на практике.
+могут порождать почти религиозные споры и должны рассматриваться только в опытных командах,
+убедившихся в пользе применения Чистого Кода на практике.
 
 ### How to Refactor Legacy Code
 
 > [Чистый код в ABAP](#clean-abap) > [Содержание](#content) > [Полезная информация](#how-to) > [Текущий раздел](#how-to-refactor-legacy-code)
 
-The topics [Booleans](#booleans), [Условия](#conditions), [Условные ветвления](#ifs),
-and [Методы](#methods) are most rewarding if you are working on a legacy project
-with tons of code that you cannot or do not want to change
-because they can be applied to new code without conflicts.
+Разделы [Booleans](#booleans), [Условия](#conditions), [Условные ветвления](#ifs),
+и [Методы](#methods) наиболее полезны при работе над проектом с большим количеством старого кода,
+который Вы не можете или не хотите существенно менять,
+потому что они могут применяться без порождения конфликтов логики.
 
-The topic [Наименования](#names) is very demanding for legacy projects,
-as it may introduce a breach between old and new code,
-up to a degree where sections like
+Раздел [Наименования](#names) может существенно усложнять рефакторинг исторического кода,
+вплоть до влияния на логику и работоспособность в принципе.
+Такие указания как
 [Avoid encodings, esp. Hungarian notation and prefixes](#avoid-encodings-esp-hungarian-notation-and-prefixes)
-are better ignored.
+в некоторых случаях лучше просто проигнорировать.
 
-Try not to mix different development styles within the same
-development object when carrying out a refactoring. If the
-legacy code contains only up-front declarations, and a complete
-refactoring into using inline declarations is not feasible, it
-is probably better to stick with the legacy style rather than
-mixing the two styles. There are several similar situations
-where mixing styles could cause confusion, for example:
+При проведении рефакторинга постарайтесь не смешивать в одном 
+объекте разработки различные стили программирования.
+Если исторический код содержит раздел предварительных объявлений 
+и полный рефакторинг с использованием строковых (inline) объявлений 
+не представляется возможным или рациональным, лучше придерживаться
+устаревшего стиля, чем смешивать оба. Есть и другие похожие ситуации,
+когда смешивание стилей может вызывать путаницу, например:
 
-- Mixing `REF TO` and `FIELD-SYMBOL` when looping.
-- Mixing `NEW` and `CREATE OBJECT` when calling a `CONSTRUCTOR`.
-- Mixing `RETURNING` and `EXPORTING` in the method signatures of
-methods only returning / exporting one parameter.
+- смешивание `REF TO` и `FIELD-SYMBOL` в циклах.
+- смешивание `NEW` и `CREATE OBJECT` при вызове конструкторов.
+- смешивание `RETURNING` и `EXPORTING` в объявлении методов, возвращающих единственный параметр.
 
-We observed good results with a four-step plan for refactoring:
+Хорошие результаты даёт использование четырёхступенчатого плана рефакторинга:
 
-1. Get the team aboard. Communicate and explain the new style,
-and get everybody on the project team to agree to it.
-You don't need to commit all guidelines at once, just start
-with an undisputed small subset and evolve from there.
+1. Привлекайте коллег: объясните и обсудите новый стиль,
+каждый член команды должен согласиться с общими правилами и принять их.
+Не обязательно использовать в работе сразу все рекомендации. Можно начать
+с основных, наименее дискуссионных пунктов, и развиваться в процессе.
 
-2. Follow the _boy scout rule_ to your daily work routine:
-_always leave the code you edit a little cleaner than you found it_.
-Don't obsess with this by sinking hours into "cleaning the campsite",
-just spend a couple of minutes extra and observe how the
-improvements accumulate over time.
+2. Используйте принцип бойскаутов: если Вы редактируете код, всегда оставляйте его чище, чем он был до Вас.
+Не тратьте времени на "генеральные уборки", лучше уделяйте немного внимания 
+каждый раз и Вы заметите, как улучшения накапливаются со временем.
 
-3. Build _clean islands_: from time to time, pick a small object or component and
-try to make it clean in all aspects. These islands demonstrate the benefit
-of what you're doing and form solidly tested home bases for further refactoring.
+3. Стройте "чистые острова": время от времени выбирайте небольшой объект или компонент
+и приводите его в полный порядок, с учётом всех принципов. Такие острова наглядно демонстрируют
+пользу проводимой работы и формируют надёжную основу для будущих изменений.
 
-4. Talk about it. No matter whether you set up old-school [Fagan code reviews](https://en.wikipedia.org/wiki/Fagan_inspection),
-hold info sessions, or form discussion boards in your favorite chat tool:
-you will need to talk about your experiences and learnings, to enable the
-team to grow a common understanding.
+4. Обсуждайте. Устраиваете ли Вы инспекцию кода [по Файгану](https://dokipedia.ru/document/5138058?pid=27&scroll_to=5069383abc58739b0800001a),
+проводите информационные сессии или инициируете обсуждения в чате, - 
+нужно делиться опытом и знаниями, чтобы у команды развивалось общее понимание.
 
 ### How to Check Automatically
 
 > [Чистый код в ABAP](#clean-abap) > [Содержание](#content) > [Полезная информация](#how-to) > [Текущий раздел](#how-to-check-automatically)
 
-There is no comprehensive suite of static code checks
-that automatically detect the anti-patterns we describe here.
+Не существует исчерпывающего набора статических проверок кода, которые 
+позволили бы обнаружить антипаттерны, описываемые в данном документе.
 
-ABAP Test Cockpit, Code Inspector, Extended Check, and Checkman provide
-some checks that may help you find certain issues.
+Такие инструменты как ATC, SCI, и расширенная проверка программ предоставляют 
+лишь ограниченные возможности для поиска определённых проблем.
 
-[abapOpenChecks](https://github.com/larshp/abapOpenChecks),
-an Open Source collection of Code Inspector checks,
-also covers some of the described anti-patterns.
+[abapOpenChecks](https://github.com/larshp/abapOpenChecks) - это открытая библиотека
+проверок анализатора кода, покрывающая некоторые из описанных антипаттернов.
 
-[abaplint](https://github.com/abaplint/abaplint) is an open source reimplementation of the ABAP parser. It works without a SAP system and is meant to be used on code serialized using abapGit. It offers multiple integrations (GitHub Actions, Jenkins, text editors...), covers some of the antipatterns and can also be used to check formatting and code conventions.
+[abaplint](https://github.com/abaplint/abaplint) - также проект Open Source, в котором 
+реализуется аналог парсера ABAP-кода. Он работает с сериализованным через abapGit кодом без использования SAP-систем. 
+Инструмент предполагает интеграцию с GitHub Actions, Jenkins, текстовыми редакторами и т.п.,
+покрывает некоторые антипаттерны и может использоваться для проверок стиля и форматирования.
 
 ### How to Relate to Other Guides
 
